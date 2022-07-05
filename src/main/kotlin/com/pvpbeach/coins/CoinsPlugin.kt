@@ -1,7 +1,11 @@
 package com.pvpbeach.coins
 
+import co.aikar.commands.BukkitCommandManager
+import com.pvpbeach.coins.command.CoinCommand
 import com.pvpbeach.coins.config.CurrencyConfig
 import com.pvpbeach.coins.config.SettingsConfig
+import com.pvpbeach.coins.currency.Currency
+import com.pvpbeach.coins.placeholder.PlaceholderService
 import com.pvpbeach.coins.player.store.PlayerCoinDataStore
 import com.pvpbeach.coins.player.sync.PlayerCoinDataSync
 import io.github.nosequel.data.DataHandler
@@ -43,6 +47,19 @@ class CoinsPlugin : JavaPlugin()
 
         PlayerCoinDataSync.sync()
         PlayerCoinDataStore.init()
+
+        PlaceholderService.initialize(this)
+
+        // commands
+        val manager = BukkitCommandManager(this).apply {
+            this.commandContexts.registerContext(Currency::class.java) {
+                val value = it.popFirstArg()
+                currencies[value]
+            }
+        }
+
+        manager.enableUnstableAPI("help")
+        manager.registerCommand(CoinCommand)
     }
 
     override fun onDisable()

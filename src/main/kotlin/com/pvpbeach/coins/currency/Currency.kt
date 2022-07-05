@@ -6,6 +6,15 @@ data class Currency(
     val formatType: CurrencyFormatType
 )
 {
+    fun format(amount: Int): String
+    {
+        return when (formatType)
+        {
+            CurrencyFormatType.BeforeName -> "${icon}${amount}"
+            CurrencyFormatType.AfterName -> "${amount}${icon}"
+        }
+    }
+
     override fun equals(other: Any?): Boolean
     {
         return other is Currency && other.name == name
