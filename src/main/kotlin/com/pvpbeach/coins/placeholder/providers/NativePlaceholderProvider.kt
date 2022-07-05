@@ -22,7 +22,9 @@ object NativePlaceholderProvider : PlaceholderProvider
                 }
 
                 val id = player.uniqueId
-                val currency = CoinsPlugin.currencies[parts[1]] ?: return "N/A"
+                val currency = CoinsPlugin
+                    .instance
+                    .currencies[parts[1]] ?: return "N/A"
 
                 currency.format(PlayerCoinData[id].currencyValues[currency])
             }

@@ -1,14 +1,20 @@
 package com.pvpbeach.coins.config
 
-import xyz.mkotb.configapi.comment.Comment
+import io.github.nosequel.config.Configuration
+import io.github.nosequel.config.ConfigurationFile
+import io.github.nosequel.config.annotation.Configurable
 
-class SettingsConfig
+class SettingsConfig(file: ConfigurationFile) : Configuration(file)
 {
-    @Comment("This will be used for both MongoDB and Redis.")
-    val hostname = "127.0.0.1"
+    @field:Configurable(path = "hostname")
+    val hostname: String = "127.0.0.1"
 
-    val mongoPort = "27017"
-    val mongoDatabase = "coins"
+    @field:Configurable(path = "mongo_database")
+    val mongoDatabase: String = "coins"
 
-    val redisPort = "27017"
+    @field:Configurable(path = "mongo_port")
+    val mongoPort: String = "27017"
+
+    @field:Configurable(path = "redis_port")
+    val redisPort: String = "6379"
 }

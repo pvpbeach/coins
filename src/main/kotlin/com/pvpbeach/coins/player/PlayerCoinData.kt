@@ -22,7 +22,7 @@ class PlayerCoinData
         }
     }
 
-    val currencyValues = notAbsentMapOf<Currency, Int>(0)
+    var currencyValues = notAbsentMapOf<Currency, Int>(0)
 
     fun wrap(id: UUID): PlayerCoinDataWrapper
     {

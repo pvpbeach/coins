@@ -2,15 +2,17 @@ package com.pvpbeach.coins.config
 
 import com.pvpbeach.coins.currency.Currency
 import com.pvpbeach.coins.currency.CurrencyFormatType
-import xyz.mkotb.configapi.comment.Comment
+import io.github.nosequel.config.Configuration
+import io.github.nosequel.config.ConfigurationFile
+import io.github.nosequel.config.annotation.Configurable
 
-class CurrencyConfig
+class CurrencyConfig(file: ConfigurationFile) : Configuration(file)
 {
-    @Comment("The active currency types used, you can change the icon etc, which will automatically update the placeholders etc.")
-    val currencies = mutableListOf(
+    @field:Configurable(path = "currencies")
+    val currencies: Array<Currency> = arrayOf(
         Currency(
             name = "Coin",
-            icon = "⛃",
+            icon = " &e⛃",
             formatType = CurrencyFormatType.AfterName
         )
     )
@@ -20,5 +22,22 @@ class CurrencyConfig
         return currencies.firstOrNull {
             it.name.equals(name, true)
         }
+    }
+
+    override fun equals(other: Any?): Boolean
+    {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CurrencyConfig
+
+        if (!currencies.contentEquals(other.currencies)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int
+    {
+        return currencies.contentHashCode()
     }
 }
